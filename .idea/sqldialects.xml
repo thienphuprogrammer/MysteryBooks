@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SqlDialectMappings">
+    <file url="file://$PROJECT_DIR$/src/main/java/com/example/mysterybook/daos/emotion/EmotionDao.java" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/example/mysterybook/daos/friend/FriendDao.java" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/example/mysterybook/daos/friendrequests/FriendRequestDao.java" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/example/mysterybook/daos/image/ImageDao.java" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/example/mysterybook/daos/message/MessageDao.java" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/example/mysterybook/daos/notification/NotificationDao.java" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/example/mysterybook/daos/post/PostDao.java" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/example/mysterybook/daos/user/UserDao.java" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/data.sql" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/schema.sql" dialect="MySQL" />
+  </component>
+</project>
