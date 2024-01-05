@@ -20,11 +20,11 @@ import java.util.List;
 public class MessageDashboardController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String tab = req.getParameter("action");
+        String action = req.getParameter("action");
         try {
-            if ("create".equals(tab)) {
+            if ("create".equals(action)) {
                 handlePostCreateMessage(req, resp);
-            } else if ("delete".equals(tab)) {
+            } else if ("delete".equals(action)) {
                 handlePostDeleteMessage(req, resp);
             }
         } catch (Exception e) {
@@ -52,10 +52,15 @@ public class MessageDashboardController extends HttpServlet {
         }
     }
 
-    private void handlePostCreateMessage(HttpServletRequest req, HttpServletResponse resp) {
+    private void handlePostCreateMessage(HttpServletRequest req, HttpServletResponse resp) throws Exception {
         String userId = req.getAttribute("userId") != null ? req.getAttribute("userId").toString() : "0";
         String friendId = req.getParameter("friendId") != null ? req.getParameter("friendId") : "0";
-        String content = req.getParameter("content") != null ? req.getParameter("content") : "";
+        String content = req.getParameter("content").trim().replaceAll("\\s+", " ");
+        // check content must not empty and not contain only space
+        if (content.isEmpty() || content.isBlank()) {
+            resp.sendRedirect("messages?friendId=" + friendId);
+            return;
+        }
 
         UploadMessageDto dto = new UploadMessageDto();
         dto.setUserId(Integer.parseInt(userId));

@@ -11,7 +11,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(name = "HomePageDashboardController", urlPatterns = "/home")
+@WebServlet(name = "HomePageDashboardController", urlPatterns = {"/home"}, loadOnStartup = 1, asyncSupported = true)
 public class HomePageDashboardController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

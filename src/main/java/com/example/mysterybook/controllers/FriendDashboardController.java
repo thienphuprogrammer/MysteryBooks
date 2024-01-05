@@ -19,17 +19,17 @@ import java.util.List;
 public class FriendDashboardController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String tab = req.getParameter("tab");
+        String action = req.getParameter("action");
         try {
-            if ("add".equals(tab)) {
+            if ("add".equals(action)) {
                 handlePostAddFriend(req, resp);
-            } else if ("cancel".equals(tab)) {
+            } else if ("cancel".equals(action)) {
                 handlePostCancelFriend(req, resp);
-            } else if ("accept".equals(tab)) {
+            } else if ("accept".equals(action)) {
                 handlePostAcceptFriend(req, resp);
-            } else if ("decline".equals(tab)) {
+            } else if ("decline".equals(action)) {
                 handlePostDeclineFriend(req, resp);
-            } else if ("unfriend".equals(tab)) {
+            } else if ("unfriend".equals(action)) {
                 handlePostUnfriend(req, resp);
             }
         } catch (Exception e) {
@@ -114,7 +114,9 @@ public class FriendDashboardController extends HttpServlet {
             String friendId = req.getParameter("friendId") == null ? "0" : req.getParameter("friendId");
             RequestAddFriendDto dto = new RequestAddFriendDto();
             dto.setUserId(Integer.parseInt(userId));
-            dto.setSenderId(Integer.parseInt(friendId));
+            dto.setSenderId(Integer.parseInt(userId));
+            dto.setReceiverId(Integer.parseInt(friendId));
+
             boolean result = FriendRequestService.getInstance().cancelAddFriend(dto);
             if (result) {
                 req.setAttribute("success", "Cancel add friend successfully");

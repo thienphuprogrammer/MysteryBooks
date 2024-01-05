@@ -21,11 +21,11 @@ public class CommentController extends HttpServlet {
     }
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String tab = req.getParameter("tab");
-        if ("create".equals(tab)) {
+        String action = req.getParameter("action");
+        if ("create".equals(action)) {
             handleUploadComment(req, resp);
         } else {
-            resp.sendRedirect("Comment?tab=comment");
+            resp.sendRedirect("Comment?action=comment");
         }
     }
 

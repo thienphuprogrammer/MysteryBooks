@@ -203,7 +203,7 @@ CREATE TRIGGER create_notification_friend_request
         DECLARE full_name VARCHAR(255);
         SELECT users.full_name INTO full_name FROM users WHERE id = NEW.sender_id LIMIT 1;
         INSERT INTO notifications (type, sender_id, receiver_id, content)
-        VALUES ('friend_request', NEW.sender_id, NEW.receiver_id, 'You have a new friend request from ' + full_name + '.');
+        VALUES ('friend_request', NEW.sender_id, NEW.receiver_id, CONCAT(full_name, ' sent you a friend request.'));
     END;
 
 INSERT INTO messages (sender_id, receiver_id, content) VALUES (12, 11, 'Hello');
@@ -245,7 +245,6 @@ CREATE TRIGGER create_notification_emotion
         VALUES ('emotion', NEW.user_id, sender_id_, CONCAT('You have a new emotion.'), NEW.post_id);
     END;
 
-DROP TRIGGER create_notification_emotion;
 DROP TRIGGER delete_notification_friend_request;
 CREATE TRIGGER delete_notification_friend_request
     AFTER DELETE ON friend_requests

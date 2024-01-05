@@ -1,11 +1,11 @@
 <div class="container">
-    <output id="list-image" class="d-flex flex-wrap justify-content-center align-items-center"
-            style="overflow: auto; max-height: 200px; position: relative;"
-    ></output>
     <input type="file" multiple="multiple" accept="image/jpeg,image/png,image/gif, image/jpg"
            name="urlImages"
            id="fileImage"
     >
+    <output id="list-image" class="d-flex flex-wrap justify-content-center align-items-center"
+            style="overflow: auto; max-height: 500px; position: relative;"
+    ></output>
 </div>
 <script>
     const fileImage = document.getElementById('fileImage');

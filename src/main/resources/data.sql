@@ -9,7 +9,6 @@ VALUES ('user1', 'user1@gmail.com', '1234567890', '1990-01-01', 'I am user1', 'I
 UPDATE users SET profile_picture = 'src/images/avatar/default.png' WHERE id > 0;
 
 SELECT * FROM users;
-
 INSERT posts(user_id, title, content, creation_date, visibility)
 VALUE ('11', 'Post 1', 'This is post 1', '2019-01-01', 'public'),
     ('11', 'Post 2', 'This is post 2', '2019-01-01', 'public'),

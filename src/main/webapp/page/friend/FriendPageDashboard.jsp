@@ -20,9 +20,9 @@
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet"/>
         <script src="https://kit.fontawesome.com/9136a03bcd.js" crossorigin="anonymous"></script>
     </head>
-    <body style="background-color: #18191a">
+    <body style="background-color: #ffffff">
         <%@include file="../../component/header/Header.jsp" %>
-        <div class="container mt-5 bg-dark p-5 text-white rounded-3 d-flex flex-column align-items-center"
+        <div class="container mt-5 p-5 rounded-3 d-flex flex-column align-items-center"
              style="border-radius: 10px 10px 0 0; min-height: 100vh; max-width: 1000px">
             <div class="title fw-bold fs-1 text-center mb-5">Friend Request</div>
             <div class="d-flex flex-wrap align-items-start justify-content-center">
@@ -30,10 +30,10 @@
                     <c:forEach items="${requestScope.listFriendRequest}" var="request" varStatus="status">
                         <div class="cart p-3 m-3"
                              style="border-radius: 10px; background-color: #2b2c2d; max-width: 200px">
-                            <img src="https://picsum.photos/200/300" alt="" class="card-img-top" style="max-width: 200px; max-height: 200px; object-fit: cover">
+                            <img src="https://picsum.photos/200/300" alt="" class="card-img-top" style="max-width: 70px; max-height: 70px; object-fit: cover; margin-right: 10px">
                             <div class="card-body">
                                 <div class="card-title fw-bold fs-5 text-truncate">
-                                    <a href="/user/${request.id}" class="text-decoration-none text-white"
+                                    <a href="/user/${request.id}" class="text-decoration-none text-dark"
                                     >${request.fullName}</a>
                                 </div>
                                 <form action="${pageContext.request.contextPath}/friends"
@@ -42,7 +42,7 @@
                                     <input type="hidden" name="id" value="${request.id}">
                                     <input type="hidden" name="senderId" value="${request.senderId}">
                                     <input type="hidden" name="receiverId" value="${request.receiverId}">
-                                    <input type="hidden" name="tab" value="accept">
+                                    <input type="hidden" name="action" value="accept">
                                     <button type="submit" class="btn btn-primary w-100 d-flex align-items-center justify-content-center" style="border-radius: 10px"
                                     >Accept</button>
                                 </form>
@@ -52,7 +52,7 @@
                                     <input type="hidden" name="id" value="${request.id}">
                                     <input type="hidden" name="senderId" value="${request.senderId}">
                                     <input type="hidden" name="receiverId" value="${request.receiverId}">
-                                    <input type="hidden" name="tab" value="decline">
+                                    <input type="hidden" name="action" value="decline">
                                     <button type="submit" class="btn btn-danger w-100 d-flex align-items-center justify-content-center" style="border-radius: 10px"
                                     >Decline</button>
                                 </form>
@@ -62,37 +62,38 @@
                 </c:if>
             </div>
             <div class="title fw-bold fs-1 text-center mb-5">List User</div>
-            <div class="d-flex flex-wrap align-items-start justify-content-center">
+            <div class="d-flex flex-wrap align-items-start justify-content-center flex-column">
                 <c:if test="${requestScope.listUser != null && !empty(requestScope.listUser)}">
                     <c:forEach items="${requestScope.listUser}" var="user" varStatus="status">
-                        <div class="cart p-3 m-3"
-                             style="border-radius: 10px; background-color: #2b2c2d; max-width: 200px">
-                            <img src="https://picsum.photos/200/300" alt="" class="card-img-top" style="max-width: 200px; max-height: 200px; object-fit: cover">
-                            <div class="card-body">
-                                <div class="card-title fw-bold fs-5 text-truncate">
+                        <div class="p-1 m-1 d-flex flex-row align-items-center justify-content-between border rounded-3"
+                             style="border-radius: 10px; width: 100%; max-width: 500px">
+                            <img src="${user.profilePicture}" alt="" class="card-img-top rounded-circle"
+                                 style="max-width: 70px; max-height: 70px; object-fit: cover; margin-right: 10px">
+                            <div class="">
+                                <div class="fw-bold fs-5 text-truncate">
                                     <a href="${pageContext.request.contextPath}/profile?id=${user.id}"
-                                       class="text-decoration-none text-white"
+                                       class="text-decoration-none text-dark"
                                     >${user.fullName}</a>
                                 </div>
-                                <form action="${pageContext.request.contextPath}/friends"
-                                      method="post"
-                                      class="d-flex flex-column align-items-center mt-3">
-                                    <input type="hidden" name="friendId" value="${user.id}">
-                                    <c:if test="${user.statusRequestFriend == 0}">
-                                        <input type="hidden" name="tab" value="add">
-                                        <button type="submit" class="btn btn-primary w-100 d-flex align-items-center justify-content-center" style="border-radius: 10px"
-                                        >Add Friend</button>
-                                    </c:if>
-                                    <c:if test="${user.statusRequestFriend == 1}">
-                                        <button type="submit" class="btn btn-primary w-100 d-flex align-items-center justify-content-center" style="border-radius: 10px"
-                                                disabled
-                                        >Waiting for accept</button>
-                                        <input type="hidden" name="tab" value="cancel">
-                                        <button type="submit" class="btn btn-danger w-100 d-flex align-items-center justify-content-center mt-2" style="border-radius: 10px"
-                                        >Cancel</button>
-                                    </c:if>
-                                </form>
                             </div>
+                            <form action="${pageContext.request.contextPath}/friends"
+                                  method="post"
+                                  class="d-flex flex-column align-items-center mt-3">
+                                <input type="hidden" name="friendId" value="${user.id}">
+                                <c:if test="${user.statusRequestFriend == 0}">
+                                    <input type="hidden" name="action" value="add">
+                                    <button type="submit" class="btn btn-primary w-100 d-flex align-items-center justify-content-center" style="border-radius: 10px"
+                                    >Add Friend</button>
+                                </c:if>
+                                <c:if test="${user.statusRequestFriend == 1}">
+                                    <button type="submit" class="btn btn-primary w-100 d-flex align-items-center justify-content-center" style="border-radius: 10px"
+                                            disabled
+                                    >Waiting for accept</button>
+                                    <input type="hidden" name="action" value="cancel">
+                                    <button type="submit" class="btn btn-danger w-100 d-flex align-items-center justify-content-center mt-2" style="border-radius: 10px"
+                                    >Cancel</button>
+                                </c:if>
+                            </form>
                         </div>
                     </c:forEach>
                 </c:if>

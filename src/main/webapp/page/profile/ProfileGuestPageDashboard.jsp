@@ -20,22 +20,24 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet"/>
   <script src="https://kit.fontawesome.com/9136a03bcd.js" crossorigin="anonymous"></script>
 </head>
-<body style="background-color: #18191a">
+<body style="background-color: #ffffff">
   <%@include file="../../component/header/Header.jsp" %>
   <div class="container mb-3">
     <div class="row">
       <div class="col-12">
-        <div class="card mt-3 mb-3 text-white bg-dark border-primary border-2 border">
+        <div class="card mt-3 mb-3 border-2 border rounded-3 p-3 border-secondary shadow-lg"
+             >
           <div class="card-body">
             <div class="d-flex flex-row align-items-center">
               <div class="avatar">
-                <img src="${requestScope.user.profilePicture}" alt="" class="rounded-circle" width="300px"
-                     style="max-width: 300px; max-height: 300px">
+                <img src="${requestScope.user.profilePicture}" alt="" class="rounded-circle"
+                     style="width: 300px; height: 300px; object-fit: cover">
               </div>
               <div class="info d-flex flex-column ms-3">
                  <span class="text-center ms-3 align-self-center">
                      <h3 class="text-center ms-3 align-self-center">
-                         <a class="text-decoration-none text-white" href="${pageContext.request.contextPath}/profile?id=${requestScope.user.id}">
+                         <a class="text-decoration-none text-primary text-center" style="font-size: 60px"
+                            href="${pageContext.request.contextPath}/profile?id=${requestScope.user.id}">
                              ${requestScope.user.fullName}
                          </a>
                      </h3>
@@ -73,24 +75,26 @@
   </div>
   <div class="container  mt-5 d-flex flex-row">
     <div class="col col-4 d-flex justify-content-center">
-      <div class="row mt-3 w-100 d-flex flex-row justify-content-center border border-2 border-primary rounded-3 p-3"
-           style="min-height: 100vh; background-color: #242526; max-width: 400px">
+      <div class="row mt-3 w-100 d-flex flex-row justify-content-center border border-2 border-secondary rounded-3 p-3 shadow-lg"
+           style="min-height: 100vh; background-color: #ffffff" >
         <div class="col-12">
           <c:if test="${requestScope.friends == null || empty(requestScope.friends)}">
-            <span class="text-white">No friend</span>
+            <span class="">No friend</span>
           </c:if>
           <c:if test="${requestScope.friends != null && !empty(requestScope.friends)}">
             <c:forEach items="${requestScope.friends}" var="friend" varStatus="status">
-              <div class="card mt-3 mb-3 text-white bg-dark border-primary d-flex">
+              <div class="card mt-3 mb-3 d-flex border-2 border rounded-3 p-3 border-secondary shadow-lg"
+                   style="background-color: #ffffff; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.5);">
                 <div class="card-body">
                   <div class="d-flex flex-row align-items-center">
                     <div class="avatar">
                       <img src="${friend.friendAvatar}" alt="" class="rounded-circle"
-                           width="50px" height="50px">
+                           style="max-width: 70px; max-height: 70px; object-fit: cover">
                     </div>
                     <div class="info d-flex flex-column ms-3">
                       <h3 class="text-center ms-3 align-self-center">
-                        <a class="text-decoration-none text-white" href="${pageContext.request.contextPath}/profile?id=${friend.friendId}">
+                        <a class="text-decoration-none text-dark"
+                           href="${pageContext.request.contextPath}/profile?id=${friend.friendId}">
                           ${friend.fullName}
                         </a>
                       </h3>
@@ -108,7 +112,8 @@
         <div class="col-12">
           <c:if test="${requestScope.posts != null && !empty(requestScope.posts)}">
             <c:forEach items="${requestScope.posts}" var="post" varStatus="status">
-              <div class="card mt-3 mb-3 text-white bg-dark border-primary d-flex">
+              <div class="card mt-3 mb-3 d-flex flex-column text-dark"
+                   style="background-color: #ffffff; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.5);">
                 <div class="card-header d-flex flex-row align-items-center">
                   <div class="avatar">
                     <img src="${post.urlAvatar}" alt="" class="rounded-circle" width="50px"
@@ -116,7 +121,8 @@
                   </div>
                   <div class="info d-flex flex-column">
                     <h3 class="text-center ms-3 align-self-center">
-                      <a class="text-decoration-none text-white" href="${pageContext.request.contextPath}/profile?userId=${post.userId}">
+                      <a class="text-decoration-none text-primary"
+                         href="${pageContext.request.contextPath}/profile?id=${post.userId}">
                           ${post.fullName}
                       </a>
                     </h3>
@@ -161,6 +167,7 @@
                           </c:if>
                         </c:forEach>
                       </div>
+
                       <div class="carousel-inner mt-3 align-self-center d-flex"
                            style="width: 80%; height: 400px; margin: auto;">
                         <c:forEach items="${post.images}"
@@ -209,30 +216,31 @@
                   <div class="d-flex flex-row justify-content-around">
                     <div class="like">
                       <c:if test="${post.isLiked == 0}">
-                        <a class="text-decoration-none text-white" href="#">
-                          <form action="${pageContext.request.contextPath}/profile/like?tab=create"
+                        <a class="text-decoration-none text-dark"
+                           href="#">
+                          <form action="${pageContext.request.contextPath}/home/like?action=create"
                                 method="post"
                           >
                             <input type="hidden" name="postId" value="${post.id}">
                             <input type="hidden" name="userId" value="${post.userId}">
-                            <button class="btn btn-outline-secondary text-white border-0 bg-dark border-primary border-2 border"
+                            <button class="btn border-0"
                                     type="submit"
-                                    id="button-addon3">
+                                    id="button-addon4">
                               <i class="fas fa-thumbs-up"></i>
                             </button>
                           </form>
                         </a>
                       </c:if>
                       <c:if test="${post.isLiked == 1}">
-                        <a class="text-decoration-none text-white" href="#">
-                          <form action="${pageContext.request.contextPath}/profile/like?tab=create"
+                        <a class="text-decoration-none " href="#">
+                          <form action="${pageContext.request.contextPath}/home/like?action=create"
                                 method="post"
                           >
                             <input type="hidden" name="postId" value="${post.id}">
                             <input type="hidden" name="userId" value="${post.userId}">
-                            <button class="btn btn-outline-secondary text-white border-0 bg-dark border-primary border-2 border color-primary"
+                            <button class="btn color-primary"
                                     type="submit"
-                                    id="button-addon4">
+                                    id="button-addon3">
                               <i class="fas fa-thumbs-up" style="color: #0d6efd">
 
                               </i>
@@ -243,7 +251,7 @@
                     </div>
                     <div class="comment ms-3 dropdown">
                       <p class="d-inline-flex gap-2 d-flex align-items-center">
-                        <a class="text-decoration-none text-white"
+                        <a class="text-decoration-none text-dark"
                            data-bs-toggle="collapse" href="#Comment${post.id}"
                            role="button" aria-expanded="false"
                            aria-controls="Comment">
@@ -262,83 +270,53 @@
                   </div>
                 </div>
                 <div class="collapse" id="Comment${post.id}">
-                  <div class="d-flex flex-row justify-content-around">
-                    <button class="btn btn-outline-secondary"
-                            type="button"
-                            data-bs-toggle="modal"
-                            data-bs-target="#showComment${post.id}"
-                            data-bs-whatever="@mdo"
-                    >
-                      ... See more comments ...
-                    </button>
-                    <div class="modal fade"
-                         id="showComment${post.id}"
-                         tabindex="-1"
-                         aria-labelledby="showCommentLabel"
-                         aria-hidden="true"
-                    >
-                      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                        <div class="modal-content">
-                          <div class="modal-header bg-dark border-primary border-2 border">
-                            <h5 class="modal-title text-white" id="showCommentLabel">Comments</h5>
-                            <button type="button"
-                                    class="btn-close bg-dark border-primary border-2 border"
-                                    data-bs-dismiss="modal" aria-label="Close"></button>
-                          </div>
-                          <div class="modal-body bg-dark border-primary border-2 border">
-                            <c:if test="${post.comments == null || empty(post.comments)}">
-                              <div class="card card-body bg-dark border-primary border-dark">
-                                <div class="d-flex flex-row">
-                                  <div class="modal-title text-white">
-                                    No comment
-                                    <i class="fas fa-sad-tear"></i>
-                                  </div>
-                                </div>
-                              </div>
-                            </c:if>
-                            <c:forEach items="${post.comments}" var="comment" varStatus="status">
-                              <div class="card card-body bg-dark border-primary border-dark">
-                                <div class="d-flex flex-row align-items-center">
-                                  <div class="avatar">
-                                    <img src="${comment.urlAvatar}" alt=""
-                                         class="rounded-circle"
-                                         width="50px" height="50px">
-                                  </div>
-                                  <div class="info d-flex flex-column">
-                                    <div class="content ms-3 align-self-center d-flex flex-column">
-                                      <div class="d-flex flex-row align-items-center">
-                                                                        <span class="me-1">
-                                                                            <a class="text-decoration-none text-white"
-                                                                               href="#">
-                                                                                ${comment.fullName}
-                                                                            </a>
-                                                                        </span>
-                                        <span class="ms-1"
-                                              style="font-size: 12px !important;">
-                                            ${comment.creationDate}
-                                        </span>
-                                      </div>
-                                      <span>
-                                          ${comment.content}
-                                      </span>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </c:forEach>
-                          </div>
-                          <div class="modal-footer bg-dark border-primary border-2 border">
-                            <button type="button"
-                                    class="btn btn-secondary bg-dark border-primary border-2 border"
-                                    data-bs-dismiss="modal">Close
-                            </button>
+                  <div class="d-flex flex-column" style="max-height: 300px; overflow-y: auto">
+                    <c:if test="${post.comments == null || empty(post.comments)}">
+                      <div class="card card-body text-center align-self-center" style="height: 100%; width: 100%; border: none">
+                        <div class="d-flex flex-row justify-content-center align-items-center">
+                          <div class="modal-title">
+                            No comment
+                            <i class="fas fa-sad-tear ms-1" style="color: #0d6efd"
+                            ></i>
                           </div>
                         </div>
                       </div>
-                    </div>
+                    </c:if>
+                    <c:forEach items="${post.comments}" var="comment" varStatus="status">
+                      <div class="col-12">
+                        <div class="card card-body">
+                          <div class="d-flex flex-row align-items-center justify-content-start">
+                            <div class="avatar">
+                              <img src="${post.urlAvatar}" alt=""
+                                   class="rounded-circle"
+                                   width="50px" height="50px">
+                            </div>
+                            <div class="info d-flex flex-column">
+                              <div class="content ms-3 align-self-center d-flex flex-column">
+                                <div class="d-flex flex-row align-items-center">
+                                                            <span class="me-1">
+                                                                <a class="text-decoration-none text-primary"
+                                                                   href="#">
+                                                                    ${comment.fullName}
+                                                                </a>
+                                                            </span>
+                                  <span class="ms-1"
+                                        style="font-size: 12px !important;">
+                                      ${comment.creationDate}
+                                  </span>
+                                </div>
+                                <span>
+                                    ${comment.content}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </c:forEach>
                   </div>
-                  <div class="card card-body bg-dark border-primary border-dark">
-                    <form action="${pageContext.request.contextPath}/profile/comment?tab=create"
+                  <div class="card card-body" style="border: none">
+                    <form action="${pageContext.request.contextPath}/home/comment?action=create"
                           method="post"
                     >
                       <div class="d-flex flex-row">

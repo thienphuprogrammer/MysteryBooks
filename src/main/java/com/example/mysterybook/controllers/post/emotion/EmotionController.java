@@ -22,9 +22,9 @@ public class EmotionController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String tab = req.getParameter("tab");
+        String action = req.getParameter("action");
         try {
-            if ("create".equals(tab)) {
+            if ("create".equals(action)) {
                 handlePostCreate(req, resp);
             }
 

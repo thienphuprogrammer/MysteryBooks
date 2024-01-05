@@ -20,7 +20,7 @@
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet"/>
         <script src="https://kit.fontawesome.com/9136a03bcd.js" crossorigin="anonymous"></script>
     </head>
-    <body style="background-color: #18191a">
+    <body style="background-color: #ffffff">
         <%@include file="../../component/header/Header.jsp" %>
         <section>
             <div class="container py-5">
@@ -31,49 +31,63 @@
                                 <c:choose>
                                     <c:when test="${noti.type == 'message'}">
                                         <a href="${pageContext.request.contextPath}/messages?friendId=${noti.senderId}" class="text-decoration-none text-dark">
-                                            <div class="card-header">
-                                                    ${noti.type}
-                                            </div>
-                                            <div class="card-body">
-                                                <h5 class="card-title">${noti.creationDate}</h5>
+                                            <div class="d-flex justify-content-between align-items-center" style="padding: 10px">
+                                                <div class="d-flex align-items-center">
+                                                    <span class="fw-bold">
+                                                            New message
+                                                    </span>
+                                                    <span class="float-end" style="margin-left: 20px">
+                                                    <i class="fas fa-clock"></i>
+                                                    ${noti.creationDate}
+                                                </span>
+                                                </div>
                                                 <p class="card-text">${noti.content}</p>
                                             </div>
                                         </a>
                                     </c:when>
                                     <c:when test="${noti.type == 'comment'}">
-                                        <c:when test="${noti.type == 'friend_request'}">
-                                            <a href="#" class="text-decoration-none text-dark">
-                                                <div class="card-header">
-                                                        ${noti.type}
+                                        <a href="#" class="text-decoration-none text-dark">
+                                            <div class="d-flex justify-content-between align-items-center" style="padding: 10px">
+                                                <div class="d-flex align-items-center">
+                                                    <span class="fw-bold">
+                                                            New comment
+                                                    </span>
+                                                    <span class="float-end" style="margin-left: 20px">
+                                                    <i class="fas fa-clock"></i>
+                                                    ${noti.creationDate}
+                                                </span>
                                                 </div>
-                                                <div class="card-body">
-                                                    <h5 class="card-title">${noti.creationDate}</h5>
-                                                    <p class="card-text">${noti.content}</p>
-                                                </div>
-                                            </a>
-                                        </c:when>
+                                                <p class="card-text">${noti.content}</p>
+                                            </div>
+                                        </a>
                                     </c:when>
                                     <c:when test="${noti.type == 'friend_request'}">
-                                        <a href="${pageContext.request.contextPath}/profile?id=${noti.senderId}" class="text-decoration-none text-dark">
-                                            <div class="card-header">
-                                                    ${noti.type}
+                                        <div class="d-flex justify-content-between align-items-center" style="padding: 10px">
+                                            <div class="d-flex align-items-center">
+                                                    <span class="fw-bold">
+                                                            New friend request
+                                                    </span>
+                                                <span class="float-end" style="margin-left: 20px">
+                                                    <i class="fas fa-clock"></i>
+                                                    ${noti.creationDate}
+                                                </span>
                                             </div>
-                                            <div class="card-body">
-                                                <h5 class="card-title">${noti.creationDate}</h5>
-                                                <p class="card-text">${noti.content}</p>
-                                            </div>
-                                        </a>
+                                            <p class="card-text">${noti.content}</p>
+                                        </div>
                                     </c:when>
                                     <c:when test="${noti.type == 'emotion'}">
-                                        <a href="" class="text-decoration-none text-dark">
-                                            <div class="card-header">
-                                                    ${noti.type}
+                                        <div class="d-flex justify-content-between align-items-center" style="padding: 10px">
+                                            <div class="d-flex align-items-center">
+                                                    <span class="fw-bold">
+                                                            New emotion
+                                                    </span>
+                                                <span class="float-end" style="margin-left: 20px">
+                                                    <i class="fas fa-clock"></i>
+                                                    ${noti.creationDate}
+                                                </span>
                                             </div>
-                                            <div class="card-body">
-                                                <h5 class="card-title">${noti.creationDate}</h5>
-                                                <p class="card-text">${noti.content}</p>
-                                            </div>
-                                        </a>
+                                            <p class="card-text">${noti.content}</p>
+                                        </div>
                                     </c:when>
                                 </c:choose>
                             </div>

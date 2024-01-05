@@ -107,12 +107,12 @@ public class PostController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
-            String tab = req.getParameter("tab");
-            if ("create".equals(tab)) {
+            String action = req.getParameter("action");
+            if ("create".equals(action)) {
                 handleCreatePost(req, resp);
-            } else if ("update".equals(tab)) {
+            } else if ("update".equals(action)) {
                  handleUpdatePost(req, resp);
-            } else if ("delete".equals(tab)) {
+            } else if ("delete".equals(action)) {
                  handleDeletePost(req, resp);
             }
         } catch (Exception e) {

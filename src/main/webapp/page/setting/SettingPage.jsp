@@ -20,53 +20,55 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet"/>
     <script src="https://kit.fontawesome.com/9136a03bcd.js" crossorigin="anonymous"></script>
 </head>
-<body style="background-color: #18191a">
+<body style="background-color: #ffffff">
 <%@include file="../../component/header/Header.jsp" %>
-<div class="container mt-5">
+<div class="container mt-5 text-dark">
     <div class="row justify-content-center">
         <div class="col-6">
-            <h1 class="text-center text-white">Settings</h1>
-            <div class="col-12 p-1 rounded mt-5 mb-5 bg-secondary">
+            <h1 class="text-center ">Settings</h1>
+            <div class="col-12 p-1 rounded">
                 <form action="${pageContext.request.contextPath}/settings?action=updateAvatar"
                         method="post"
                         enctype="multipart/form-data"
                 >
                     <div class="form-group">
-                        <label for="avatar" class="form-label text-white">
+                        <label for="avatar" class="form-label ">
                             Avatar</label>
                         <input type="file" class="form-control" id="avatar" name="avatar">
                     </div>
-                    <div class="form-group text-white">
+                    <div class="form-group ">
                         <button type="submit" class="btn btn-primary mt-2">Update</button>
                     </div>
                 </form>
             </div>
-            <div class="col-12 bg-secondary p-1 rounded mt-5 mb-5">
+            <hr style="border: 4px solid #000000">
+            <div class="col-12  p-1 rounded">
                 <c:if test="${requestScope.error != null}">
                     <div class="alert alert-danger" role="alert">
                         ${requestScope.error}
                     </div>
                 </c:if>
                 <form action="${pageContext.request.contextPath}/settings?action=updatePassword">
-                    <div class="form-group text-white">
-                        <label for="oldPassword" class="form-label text-white">
+                    <div class="form-group ">
+                        <label for="oldPassword" class="form-label ">
                             Old Password</label>
                         <input type="password" class="form-control" id="oldPassword" name="oldPassword">
                     </div>
-                    <div class="form-group text-white">
-                        <label for="newPassword" class="form-label text-white">
+                    <div class="form-group ">
+                        <label for="newPassword" class="form-label ">
                             New Password</label>
                         <input type="password" class="form-control" id="newPassword" name="newPassword">
                     </div>
-                    <div class="form-group text-white">
-                        <label for="confirmPassword" class="form-label text-white">
+                    <div class="form-group ">
+                        <label for="confirmPassword" class="form-label ">
                             Confirm Password</label>
                         <input type="password" class="form-control" id="confirmPassword" name="confirmPassword">
                         <button type="submit" class="btn btn-primary mt-2">Update</button>
                     </div>
                 </form>
             </div>
-            <div class="col-12 bg-secondary p-1 rounded mt-5 mb-5">
+            <hr style="border: 4px solid #000000">
+            <div class="col-12  p-1 rounded">
                 <c:if test="${requestScope.error != null}">
                     <div class="alert alert-danger" role="alert">
                         ${requestScope.error}
@@ -79,52 +81,53 @@
                 </c:if>
                 <form action="${pageContext.request.contextPath}/settings?action=updateName"
                       method="post">
-                    <div class="form-group text-white">
-                        <label for="name" class="form-label text-white">
+                    <div class="form-group ">
+                        <label for="name" class="form-label ">
                             New Name</label>
                         <input type="text" class="form-control" id="name" name="fullName" value="${requestScope.user.fullName}">
                     </div>
-                    <div class="form-group text-white">
+                    <div class="form-group ">
                         <button type="submit" class="btn btn-primary mt-2"
                         >Update</button>
                     </div>
                 </form>
             </div>
-            <div class="col-12 bg-secondary p-1 rounded mt-5 mb-5">
+            <hr style="border: 4px solid #000000">
+            <div class="col-12  p-1 rounded">
                 <form action="${pageContext.request.contextPath}/settings?action=updateInfo"
                       method="post">
-                    <div class="form-group text-white">
-                        <label for="phoneNumber" class="form-label text-white">
+                    <div class="form-group ">
+                        <label for="phoneNumber" class="form-label ">
                             New Phone Number</label>
                         <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" value="${requestScope.user.phoneNumber}">
                     </div>
-                    <div class="form-group text-white">
-                        <label for="address" class="form-label text-white">
+                    <div class="form-group ">
+                        <label for="address" class="form-label ">
                             New Address</label>
                         <input type="text" class="form-control" id="address" name="address" value="${requestScope.user.address}">
                     </div>
-                    <div class="form-group text-white">
-                        <label for="dateOfBirth" class="form-label text-white">
+                    <div class="form-group ">
+                        <label for="dateOfBirth" class="form-label ">
                             New Date Of Birth</label>
                         <input type="date" class="form-control" id="dateOfBirth" name="dateOfBirth" value="${requestScope.user.dateOfBirth}">
                     </div>
-                    <div class="form-group text-white">
-                        <label for="bio" class="form-label text-white">
+                    <div class="form-group ">
+                        <label for="bio" class="form-label ">
                             New Bio</label>
                         <input type="text" class="form-control" id="bio" name="bio" value="${requestScope.user.bio}">
                     </div>
-                    <div class="form-group text-white">
-                        <label for="interest" class="form-label text-white">
+                    <div class="form-group ">
+                        <label for="interest" class="form-label ">
                             New Interest</label>
                         <input type="text" class="form-control" id="interest" name="interest" value="${requestScope.user.interests}">
                     </div>
-                    <div class="form-group text-white">
+                    <div class="form-group ">
                         <button type="submit" class="btn btn-primary mt-2"
                         >Update</button>
                     </div>
                 </form>
             </div>
-
+            <hr style="border: 4px solid #000000">
         </div>
     </div>
 

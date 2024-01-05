@@ -20,20 +20,17 @@
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet"/>
         <script src="https://kit.fontawesome.com/9136a03bcd.js" crossorigin="anonymous"></script>
     </head>
-    <body style="background-color: #18191a">
+    <body style="background-color: #ffffff; font-family: 'Lobster', cursive; ">
         <%@include file="../../component/header/Header.jsp" %>
-        <section style="background-color: #eee;">
-            <div class="container py-5">
-
-                <div class="row">
-
+        <section class="vh-100 bg-image overflow-hidden text-dark d-flex align-items-center flex-column justify-content-center"
+                 style="background-color: #ffffff;, height: 100vh !important;">
+            <div class="container-fluid py-2 px-4 px-sm-0 text-white shadow-5-strong rounded-3 shadow-lg"
+                 style="height: 100%;">
+                <div class="row" style="padding-left: 20px; padding-right: 20px;">
                     <div class="col-md-6 col-lg-5 col-xl-4 mb-4 mb-md-0">
-
-                        <h5 class="font-weight-bold mb-3 text-center text-lg-start">Member</h5>
-
                         <div class="card">
                             <div class="card-body">
-                                <ul class="list-unstyled mb-0" style="overflow-y: scroll; height: 500px;">
+                                <ul class="list-unstyled mb-0" style="overflow-y: scroll; height: 80vh;">
                                     <c:if test="${requestScope.friends != null && !empty(requestScope.friends)}">
                                         <c:forEach items="${requestScope.friends}" var="friend" varStatus="status">
                                             <li class="p-2 border-bottom" style="background-color: #eee;">
@@ -60,18 +57,20 @@
                         </div>
                     </div>
 
-                    <div class="col-md-6 col-lg-7 col-xl-8">
-                        <ul class="list-unstyled" style="background-color: #eee; overflow-y: scroll; height: 500px;" id="message">
+                    <div class="col-md-6 col-lg-7 col-xl-8 mb-4 mb-md-0 border rounded-3"
+                         style="height: 80vh;">
+                        <ul class="list-unstyled" style="background-color: #eee; overflow-y: scroll; height: 80%;" id="message">
                             <c:choose>
                                 <c:when test="${requestScope.messages != null && !empty(requestScope.messages)}">
                                     <c:forEach items="${requestScope.messages}" var="message" varStatus="status">
                                         <c:if test="${message.isFriend == 1}">
                                             <li class="d-flex justify-content-end mb-4">
-                                                <img src="${message.avatar}" alt="avatar"
-                                                     class="rounded-circle d-flex align-self-start me-3 shadow-1-strong" width="60">
                                                 <div class="card">
                                                     <div class="card-header d-flex justify-content-between p-3">
-                                                        <p class="fw-bold mb-0">${message.fullName}</p>
+                                                        <a href="${pageContext.request.contextPath}/profile?id=${message.userId}"
+                                                           class="fw-bold mb-0 text-decoration-none text-dark">
+                                                            <p class="fw-bold mb-0">${message.fullName}</p>
+                                                        </a>
                                                         <p class="text-muted small mb-0 text-end" style="margin-left: 50px;">
                                                             <i class="far fa-clock"></i>${message.sentDate}</p>
                                                     </div>
@@ -83,7 +82,7 @@
                                                               method="post">
                                                             <input type="hidden" name="id" value="${message.id}">
                                                             <input type="hidden" name="friendId" value="${requestScope.friendId}">
-                                                            <button type="submit" class="btn btn-danger btn-rounded float-end"
+                                                            <button type="submit" class="btn btn-danger btn-rounded float-end" onclick="return confirm('Are you sure?')"
                                                             style="margin-top: 10px;">
                                                                 <i class="fas fa-trash-alt"></i>
                                                             </button>
@@ -91,15 +90,18 @@
 
                                                     </div>
                                                 </div>
+                                                <img src="${message.avatar}" alt="avatar"
+                                                     class="rounded-circle d-flex align-self-start me-3 shadow-1-strong" style="margin-left: 50px; width: 60px; height: 60px; object-fit: cover;">
                                             </li>
                                         </c:if>
                                         <c:if test="${message.isFriend == 0}">
                                             <li class="d-flex justify-content-end mb-4 flex-row-reverse">
-                                                <img src="${message.avatar}" alt="avatar"
-                                                     class="rounded-circle d-flex align-self-start me-3 shadow-1-strong" width="60">
                                                 <div class="card">
                                                     <div class="card-header d-flex justify-content-between p-3">
-                                                        <p class="fw-bold mb-0">${message.fullName}</p>
+                                                        <a href="${pageContext.request.contextPath}/profile?id=${message.userId}"
+                                                           class="fw-bold mb-0 text-decoration-none text-dark">
+                                                            <p class="fw-bold mb-0">${message.fullName}</p>
+                                                        </a>
                                                         <p class="text-muted small mb-0 text-end" style="margin-left: 50px;">
                                                             <i class="far fa-clock"></i>${message.sentDate}</p>
                                                     </div>
@@ -109,6 +111,8 @@
                                                         </p>
                                                     </div>
                                                 </div>
+                                                <img src="${message.avatar}" alt="avatar"
+                                                     class="rounded-circle d-flex align-self-start me-3 shadow-1-strong" style="margin-left: 50px; width: 60px; height: 60px; object-fit: cover;">
                                             </li>
                                         </c:if>
                                     </c:forEach>
@@ -137,9 +141,7 @@
                             </form>
                         </ul>
                     </div>
-
                 </div>
-
             </div>
         </section>
     <script>

@@ -38,7 +38,7 @@
                     ${requestScope.success}
                 </div>
             </c:if>
-            <form action="${pageContext.request.contextPath}/home/post?tab=update&postId=${requestScope.post.id}"
+            <form action="${pageContext.request.contextPath}/home/post?action=update&postId=${requestScope.post.id}"
                   method="post" enctype="multipart/form-data"
             >
                 <input type="hidden" name="id" value="${requestScope.post.id}">
@@ -90,7 +90,7 @@
                                      id="image${image.id}"
                                 >
                                 <input type="hidden" name="imageId" value="${image.id}">
-                                <a href="/home/post?tab=update&postId=${requestScope.post.id}&imageId=${image.id}&action=delete"
+                                <a href="${pageContext.request.contextPath}/home/post?action=update&postId=${requestScope.post.id}&imageId=${image.id}&action=delete"
                                    class="btn btn-danger position-absolute top-0 end-0"
                                    >
                                     X
