@@ -217,4 +217,99 @@ public class PostDao implements IPostDao {
         }
         return result;
     }
+
+    @Override
+    public List<Posts> getPostsForGuest(int friendId, int userId) {
+        List<Posts> result = new ArrayList<>();
+        String query = """
+                SELECT * FROM posts
+                WHERE (visibility = 'public' AND user_id = ?)
+                OR (group_id IN (SELECT group_id FROM user_groups WHERE user_id = ?) AND user_id = ?)
+                OR (id IN (SELECT id FROM posts
+                            WHERE visibility = 'friends'
+                            AND user_id IN (SELECT friend_id FROM friends WHERE user_id = ?)) AND user_id = ?)
+                ORDER BY
+                    group_id DESC,
+                    user_id IN (SELECT friend_id FROM friends WHERE user_id = ?) DESC,
+                    user_id = ? DESC,
+                    creation_date DESC;
+                """;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        try {
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, friendId);
+            preparedStatement.setInt(2, userId);
+            preparedStatement.setInt(3, friendId);
+            preparedStatement.setInt(4, userId);
+            preparedStatement.setInt(5, friendId);
+            preparedStatement.setInt(6, userId);
+            preparedStatement.setInt(7, friendId);
+
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Posts post = new Posts();
+                post.setId(resultSet.getInt("id"));
+                post.setUserId(resultSet.getInt("user_id"));
+                post.setGroupId(resultSet.getInt("group_id"));
+                post.setContent(resultSet.getString("content"));
+                post.setVisibility(resultSet.getString("visibility"));
+                post.setTitle(resultSet.getString("title"));
+                post.setCreationDate(resultSet.getString("creation_date"));
+                result.add(post);
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e.getMessage());
+        }
+        return result;
+    }
+
+    @Override
+    public List<Posts> getAllPostsBySearch(int userId, String search) {
+        String query = """
+                SELECT * FROM posts
+                WHERE (visibility = 'public' AND user_id = ? AND (title LIKE ? OR content LIKE ?))
+                OR (id IN (SELECT id FROM posts
+                            WHERE visibility = 'friends'
+                            AND user_id IN (SELECT friend_id FROM friends WHERE user_id = ?)) AND user_id = ? AND (title LIKE ? OR content LIKE ?))
+                ORDER BY
+                    group_id DESC,
+                    user_id IN (SELECT friend_id FROM friends WHERE user_id = ?) DESC,
+                    user_id = ? DESC,
+                    creation_date DESC;
+                """;
+        List<Posts> result = new ArrayList<>();
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        try {
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, userId);
+            preparedStatement.setString(2, "%" + search + "%");
+            preparedStatement.setString(3, "%" + search + "%");
+            preparedStatement.setInt(4, userId);
+            preparedStatement.setInt(5, userId);
+            preparedStatement.setString(6, "%" + search + "%");
+            preparedStatement.setString(7, "%" + search + "%");
+            preparedStatement.setInt(8, userId);
+            preparedStatement.setInt(9, userId);
+
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Posts post = new Posts();
+                post.setId(resultSet.getInt("id"));
+                post.setUserId(resultSet.getInt("user_id"));
+                post.setGroupId(resultSet.getInt("group_id"));
+                post.setContent(resultSet.getString("content"));
+                post.setVisibility(resultSet.getString("visibility"));
+                post.setTitle(resultSet.getString("title"));
+                post.setCreationDate(resultSet.getString("creation_date"));
+                result.add(post);
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e.getMessage());
+        }
+        return result;
+    }
 }

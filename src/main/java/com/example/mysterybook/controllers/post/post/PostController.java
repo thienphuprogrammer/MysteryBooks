@@ -65,7 +65,12 @@ public class PostController extends HttpServlet {
 
     private void handleCreatePost(HttpServletRequest req, HttpServletResponse resp) throws Exception {
         UploadPostDto dto = getPostFromWeb(req, resp);
-        PostsService.getInstance().createPost(dto);
+        boolean result = PostsService.getInstance().createPost(dto);
+        if (result) {
+            req.setAttribute("success", "Create post successfully");
+        } else {
+            req.setAttribute("error", "Create post failed");
+        }
         // send redirect to page before
         resp.sendRedirect(req.getHeader("referer"));
     }

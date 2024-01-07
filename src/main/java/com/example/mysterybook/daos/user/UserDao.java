@@ -108,7 +108,7 @@ public class UserDao implements IUserDao {
                 SELECT * FROM users
                 WHERE id NOT IN (
                     SELECT sender_id FROM friend_requests
-                    WHERE receiver_id = ? AND accepted = true
+                    WHERE receiver_id = ?
                     UNION
                     SELECT receiver_id FROM friend_requests
                     WHERE sender_id = ? AND accepted = true

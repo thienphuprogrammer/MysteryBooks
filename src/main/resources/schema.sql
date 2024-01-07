@@ -253,6 +253,8 @@ CREATE TRIGGER delete_notification_friend_request
         DELETE FROM notifications WHERE type = 'friend_request' AND sender_id = OLD.sender_id AND receiver_id = OLD.receiver_id;
     END;
 
+INSERT INTO messages (sender_id, receiver_id, content) VALUES (12, 11, 'Hello');
+
 CREATE TRIGGER delete_notification_message
     AFTER DELETE ON messages
     FOR EACH ROW
@@ -273,3 +275,6 @@ CREATE TRIGGER delete_notification_emotion
     BEGIN
         DELETE FROM notifications WHERE type = 'emotion' AND sender_id = OLD.user_id AND post_id = OLD.post_id;
     END;
+
+SELECT * FROM posts
+WHERE (visibility = 'public' AND user_id = 11 AND (content LIKE '%3%'))

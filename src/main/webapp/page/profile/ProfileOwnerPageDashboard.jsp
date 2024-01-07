@@ -89,7 +89,7 @@
                   <div class="d-flex flex-row align-items-center">
                     <div class="avatar">
                       <img src="${friend.friendAvatar}" alt="" class="rounded-circle"
-                           width="50px" height="50px">
+                           style="width: 70px; height: 70px; object-fit: cover">
                     </div>
                     <div class="info d-flex flex-column ms-3">
                       <h3 class="text-center ms-3 align-self-center">
@@ -304,10 +304,10 @@
                         </a>
                       </p>
                     </div>
-                    <div class="share ms-3">
-                      <i class="fas fa-share"></i>
-                      <span class="ms-1">Share</span>
-                    </div>
+<%--                    <div class="share ms-3">--%>
+<%--                      <i class="fas fa-share"></i>--%>
+<%--                      <span class="ms-1">Share</span>--%>
+<%--                    </div>--%>
                   </div>
                 </div>
                 <div class="collapse" id="Comment${post.id}">

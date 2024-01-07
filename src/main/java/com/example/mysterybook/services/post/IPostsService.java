@@ -20,4 +20,8 @@ public interface IPostsService {
     boolean deletePost(UploadPostDto dto) throws Exception;
 
     List<RenderPostDto> getALlPosts(int userId) throws Exception;
+
+    List<RenderPostDto> getPostsForGuest(int i, int i1) throws Exception;
+
+    List<RenderPostDto> getALlPostsBySearch(int userId, String search) throws Exception;
 }

@@ -179,4 +179,68 @@ public class PostsService implements IPostsService {
         }
         return result;
     }
+
+    @Override
+    public List<RenderPostDto> getPostsForGuest(int friendId, int userId) throws Exception {
+        List<RenderPostDto> result = new ArrayList<>();
+        if (postsDao != null) {
+            List<Posts> posts = postsDao.getPostsForGuest(friendId, userId);
+            for (Posts post : posts) {
+                List<Images> images = DaoFactory.getInstance().getImageDao().getImagesByPostId(post.getId());
+                RenderPostDto dto = new RenderPostDto();
+                User user = DaoFactory.getInstance().getUserDao().getUserById(post.getUserId());
+
+                List<RenderCommentDto> renderCommentDto = new ArrayList<>();
+                List<Comments> comments = DaoFactory.getInstance().getCommentDao().getCommentsByPostId(post.getId());
+                for (Comments comment : comments) {
+                    User userComment = DaoFactory.getInstance().getUserDao().getUserById(comment.getUserId());
+                    RenderCommentDto renderComment = new RenderCommentDto();
+                    renderComment.loadFromModel(comment, userComment);
+                    renderCommentDto.add(renderComment);
+                }
+                Emotion emotion = DaoFactory.getInstance().getEmotionDao().getEmotionByPostIdAndUserId(post.getId(), userId);
+                if (emotion != null) {
+                    dto.setIsLiked(1);
+                }
+                dto.loadFromModel(post, images, user, comments, renderCommentDto);
+                dto.setNumberOfComments(comments.size());
+                dto.setNumberOfLikes(DaoFactory.getInstance().getEmotionDao().getNumberOfEmotionsByPostId(post.getId()));
+                result.add(dto);
+
+            }
+        }
+        return result;
+    }
+
+    @Override
+    public List<RenderPostDto> getALlPostsBySearch(int userId, String search) throws Exception {
+        List<RenderPostDto> result = new ArrayList<>();
+        if (postsDao != null) {
+            List<Posts> posts = postsDao.getAllPostsBySearch(userId, search);
+            for (Posts post : posts) {
+                List<Images> images = DaoFactory.getInstance().getImageDao().getImagesByPostId(post.getId());
+                RenderPostDto dto = new RenderPostDto();
+                User user = DaoFactory.getInstance().getUserDao().getUserById(post.getUserId());
+
+                List<RenderCommentDto> renderCommentDto = new ArrayList<>();
+                List<Comments> comments = DaoFactory.getInstance().getCommentDao().getCommentsByPostId(post.getId());
+                for (Comments comment : comments) {
+                    User userComment = DaoFactory.getInstance().getUserDao().getUserById(comment.getUserId());
+                    RenderCommentDto renderComment = new RenderCommentDto();
+                    renderComment.loadFromModel(comment, userComment);
+                    renderCommentDto.add(renderComment);
+                }
+                Emotion emotion = DaoFactory.getInstance().getEmotionDao().getEmotionByPostIdAndUserId(post.getId(), userId);
+                if (emotion != null) {
+                    dto.setIsLiked(1);
+                }
+                dto.loadFromModel(post, images, user, comments, renderCommentDto);
+                dto.setNumberOfComments(comments.size());
+                dto.setNumberOfLikes(DaoFactory.getInstance().getEmotionDao().getNumberOfEmotionsByPostId(post.getId()));
+                result.add(dto);
+
+            }
+        }
+        return result;
+    }
 }

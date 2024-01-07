@@ -20,4 +20,8 @@ public interface IPostDao {
     boolean deletePost(Posts post);
 
     List<Posts> getAllPosts(int userId);
+
+    List<Posts> getPostsForGuest(int friendId, int userId);
+
+    List<Posts> getAllPostsBySearch(int userId, String search);
 }
