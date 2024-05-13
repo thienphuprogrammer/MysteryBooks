@@ -15,7 +15,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(name = "FriendDashboard", urlPatterns = {"/friends", "/profile/friend"})
+@WebServlet(name = "FriendDashboard", urlPatterns = {"/friends", "/profile/friend", "/home/friends"})
 public class FriendDashboardController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -102,7 +102,8 @@ public class FriendDashboardController extends HttpServlet {
             } else {
                 req.setAttribute("error", "Accept add friend failed");
             }
-            resp.sendRedirect("../friends");
+            // send redirect to page before
+            resp.sendRedirect(req.getHeader("referer"));
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
@@ -124,7 +125,7 @@ public class FriendDashboardController extends HttpServlet {
                 req.setAttribute("error", "Cancel add friend failed");
             }
             // send redirect to page before
-            resp.sendRedirect("../friends");
+            resp.sendRedirect(req.getHeader("referer"));
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
@@ -144,7 +145,8 @@ public class FriendDashboardController extends HttpServlet {
             } else {
                 req.setAttribute("error", "Request add friend failed");
             }
-            resp.sendRedirect("../friends");
+            // send redirect to page before
+            resp.sendRedirect(req.getHeader("referer"));
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }

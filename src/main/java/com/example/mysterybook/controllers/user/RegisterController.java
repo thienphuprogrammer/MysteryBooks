@@ -22,30 +22,47 @@ public class RegisterController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             RegisterUserDto dto = new RegisterUserDto();
-            dto.setUsername(request.getParameter("username"));
-            dto.setEmail(request.getParameter("email"));
-            dto.setPhoneNumber(request.getParameter("phone"));
-            dto.setPassword(request.getParameter("password"));
-            dto.setConfirmPassword(request.getParameter("confirmPassword"));
-            dto.setFullName(request.getParameter("fullName"));
-            dto.setAddress(request.getParameter("address"));
+            String username = request.getParameter("username") == null ? "" : request.getParameter("username");
+            username = username.trim();
+            String email = request.getParameter("email") == null ? "" : request.getParameter("email");
+            email = email.trim();
+            String phone = request.getParameter("phone") == null ? "" : request.getParameter("phone");
+            phone = phone.trim();
+            String password = request.getParameter("password") == null ? "" : request.getParameter("password");
+            String confirmPassword = request.getParameter("confirmPassword");
+            String fullName = request.getParameter("fullName") == null ? "" : request.getParameter("fullName");
+            fullName = fullName.trim();
+            String address = request.getParameter("address") == null ? "" : request.getParameter("address");
+            address = address.trim();
+
+            dto.setUsername(username);
+            dto.setEmail(email);
+            dto.setPhoneNumber(phone);
+            dto.setPassword(password);
+            dto.setConfirmPassword(confirmPassword);
+            dto.setFullName(fullName);
+            dto.setAddress(address);
 
             List<ValidationError> errors = dto.validate();
             if (!errors.isEmpty()) {
                 for (ValidationError error : errors) {
                     request.setAttribute(error.getName(), error.getMessage());
                 }
+                request.setAttribute("info", dto);
                 request.getRequestDispatcher("page/register/RegisterPage.jsp").forward(request, response);
-            } else {
-                boolean createAccountResult = UserService.getInstance().registerUser(dto);
-                if (createAccountResult) {
-                    request.setAttribute("success", "Register successfully");
-                    response.sendRedirect("page/register/RegisterPage.jsp");
-                } else {
-                    request.setAttribute("error", "Register failed");
-                    request.getRequestDispatcher("page/register/RegisterPage.jsp").forward(request, response);
-                }
+                return;
             }
+
+            boolean createAccountResult = UserService.getInstance().registerUser(dto);
+            if (createAccountResult) {
+                request.setAttribute("success", "Register successfully");
+                response.sendRedirect("/login");
+                return;
+            } else {
+                request.setAttribute("info", dto);
+                request.setAttribute("error", "Register failed");
+            }
+            request.getRequestDispatcher("page/register/RegisterPage.jsp").forward(request, response);
         } catch (Exception e) {
             request.setAttribute("error", "Register failed");
             System.out.println(e.getMessage());

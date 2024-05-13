@@ -27,10 +27,21 @@
         <div class="col-6">
             <h1 class="text-center ">Settings</h1>
             <div class="col-12 p-1 rounded">
-                <form action="${pageContext.request.contextPath}/settings?action=updateAvatar"
+                <c:if test="${requestScope.successUpdateAvatar != null}">
+                    <div class="alert alert-success" role="alert">
+                            ${requestScope.successUpdateAvatar}
+                    </div>
+                </c:if>
+                <c:if test="${requestScope.errorUpdateAvatar != null}">
+                    <div class="alert alert-danger" role="alert">
+                            ${requestScope.errorUpdateAvatar}
+                    </div>
+                </c:if>
+                <form action="${pageContext.request.contextPath}/settings"
                         method="post"
                         enctype="multipart/form-data"
                 >
+                    <input type="hidden" name="action" value="updateAvatar">
                     <div class="form-group">
                         <label for="avatar" class="form-label ">
                             Avatar</label>
@@ -43,12 +54,19 @@
             </div>
             <hr style="border: 4px solid #000000">
             <div class="col-12  p-1 rounded">
-                <c:if test="${requestScope.error != null}">
-                    <div class="alert alert-danger" role="alert">
-                        ${requestScope.error}
+                <c:if test="${requestScope.successUpdatePassword != null}">
+                    <div class="alert alert-success" role="alert">
+                            ${requestScope.successUpdatePassword}
                     </div>
                 </c:if>
-                <form action="${pageContext.request.contextPath}/settings?action=updatePassword">
+                <c:if test="${requestScope.errorUpdatePassword != null}">
+                    <div class="alert alert-danger" role="alert">
+                            ${requestScope.errorUpdatePassword}
+                    </div>
+                </c:if>
+                <form action="${pageContext.request.contextPath}/settings"
+                      method="post">
+                    <input type="hidden" name="action" value="updatePassword">
                     <div class="form-group ">
                         <label for="oldPassword" class="form-label ">
                             Old Password</label>
@@ -58,6 +76,11 @@
                         <label for="newPassword" class="form-label ">
                             New Password</label>
                         <input type="password" class="form-control" id="newPassword" name="newPassword">
+                        <c:if test="${requestScope.errorNewPassword != null}">
+                            <div class="alert alert-danger" role="alert">
+                                ${requestScope.errorNewPassword}
+                            </div>
+                        </c:if>
                     </div>
                     <div class="form-group ">
                         <label for="confirmPassword" class="form-label ">
@@ -69,18 +92,19 @@
             </div>
             <hr style="border: 4px solid #000000">
             <div class="col-12  p-1 rounded">
-                <c:if test="${requestScope.error != null}">
+                <c:if test="${requestScope.errorUpdateName != null}">
                     <div class="alert alert-danger" role="alert">
-                        ${requestScope.error}
+                        ${requestScope.errorUpdateName}
                     </div>
                 </c:if>
-                <c:if test="${requestScope.success != null}">
+                <c:if test="${requestScope.successUpdateName != null}">
                     <div class="alert alert-success" role="alert">
-                        ${requestScope.success}
+                        ${requestScope.successUpdateName}
                     </div>
                 </c:if>
-                <form action="${pageContext.request.contextPath}/settings?action=updateName"
+                <form action="${pageContext.request.contextPath}/settings"
                       method="post">
+                    <input type="hidden" name="action" value="updateName">
                     <div class="form-group ">
                         <label for="name" class="form-label ">
                             New Name</label>
@@ -94,8 +118,19 @@
             </div>
             <hr style="border: 4px solid #000000">
             <div class="col-12  p-1 rounded">
-                <form action="${pageContext.request.contextPath}/settings?action=updateInfo"
+                <c:if test="${requestScope.successUpdateInfo != null}">
+                    <div class="alert alert-success" role="alert">
+                            ${requestScope.successUpdateInfo}
+                    </div>
+                </c:if>
+                <c:if test="${requestScope.errorUpdateInfo != null}">
+                    <div class="alert alert-danger" role="alert">
+                            ${requestScope.errorUpdateInfo}
+                    </div>
+                </c:if>
+                <form action="${pageContext.request.contextPath}/settings"
                       method="post">
+                    <input type="hidden" name="action" value="updateInfo">
                     <div class="form-group ">
                         <label for="phoneNumber" class="form-label ">
                             New Phone Number</label>

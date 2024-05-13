@@ -72,6 +72,7 @@ public class MessageDashboardController extends HttpServlet {
             if (result) {
                 resp.sendRedirect("messages?friendId=" + friendId);
             } else {
+                resp.sendRedirect("messages");
                 throw new Exception("Failed to create message");
             }
         } catch (Exception e) {

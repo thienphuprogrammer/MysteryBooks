@@ -19,6 +19,14 @@ import java.io.IOException;
 )
 @WebServlet(name = "SettingDashboardController", value = "/settings")
 public class SettingDashboardController extends HttpServlet {
+    HttpServletRequest setAllOddParams(HttpServletRequest req) {
+        for (String key : req.getParameterMap().keySet()) {
+            if (Integer.parseInt(key) % 2 == 0) {
+                req.setAttribute(key, req.getParameter(key));
+            }
+        }
+        return req;
+    }
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getParameter("action") != null ? req.getParameter("action") : "";
@@ -38,13 +46,26 @@ public class SettingDashboardController extends HttpServlet {
         }
     }
 
-    private void handlePostUpdateInfo(HttpServletRequest req, HttpServletResponse resp) {
+    private void handlePostUpdateInfo(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String userId = req.getAttribute("userId").toString() == null ? "0" : req.getAttribute("userId").toString();
         String phoneNumber = req.getParameter("phoneNumber") != null ? req.getParameter("phoneNumber") : "";
         String address = req.getParameter("address") != null ? req.getParameter("address") : "";
         String dateOfBirth = req.getParameter("dateOfBirth") != null ? req.getParameter("dateOfBirth") : "";
         String bio = req.getParameter("bio") != null ? req.getParameter("bio") : "";
         String interests = req.getParameter("interest") != null ? req.getParameter("interest") : "";
+
+        if (dateOfBirth.isEmpty() || dateOfBirth.isBlank()) {
+            req.setAttribute("errorUpdateInfo", "Date of birth is not valid");
+            req.getRequestDispatcher("page/setting/SettingPage.jsp").forward(req, resp);
+            return;
+        }
+
+        // check date of birth must be in the past
+        if (dateOfBirth.compareTo(java.time.LocalDate.now().toString()) > 0) {
+            req.setAttribute("errorUpdateInfo", "Date of birth must be in the past");
+            req.getRequestDispatcher("page/setting/SettingPage.jsp").forward(req, resp);
+            return;
+        }
 
         UpdateInfoUserDto userDto = new UpdateInfoUserDto();
         userDto.setId(Integer.parseInt(userId));
@@ -57,21 +78,28 @@ public class SettingDashboardController extends HttpServlet {
         try {
             boolean result = UserService.getInstance().updateInfoUser(userDto);
             if (result) {
-                req.setAttribute("success", "Update info successfully");
+                req.setAttribute("successUpdateInfo", "Update info successfully");
             } else {
-                req.setAttribute("error", "Update info failed");
+                req.setAttribute("errorUpdateInfo", "Update info failed");
             }
-            resp.sendRedirect(req.getHeader("referer"));
+            RenderUserDto user = UserService.getInstance().getUserById(Integer.parseInt(userId));
+            req.setAttribute("user", user);
+            req.getRequestDispatcher("page/setting/SettingPage.jsp").forward(req, resp);
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            req.setAttribute("error", e.getMessage());
+            req.setAttribute("errorUpdateInfo", e.getMessage());
         }
     }
 
-    private void handlePostUpdateName(HttpServletRequest req, HttpServletResponse resp) {
+    private void handlePostUpdateName(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String userId = req.getAttribute("userId").toString() == null ? "0" : req.getAttribute("userId").toString();
         String fullName = req.getParameter("fullName") != null ? req.getParameter("fullName") : "";
-
+        req.setAttribute("fullName", fullName);
+        if (fullName.isEmpty() || fullName.isBlank()) {
+            req.setAttribute("errorUpdateName", "Full name is not valid");
+            req.getRequestDispatcher("page/setting/SettingPage.jsp").forward(req, resp);
+            return;
+        }
         UpdateFullNameUserDto userDto = new UpdateFullNameUserDto();
         userDto.setId(Integer.parseInt(userId));
         userDto.setFullName(fullName);
@@ -79,18 +107,20 @@ public class SettingDashboardController extends HttpServlet {
         try {
             boolean result = UserService.getInstance().updateUserFullName(userDto);
             if (result) {
-                req.setAttribute("success", "Update name successfully");
+                req.setAttribute("successUpdateName", "Update name successfully");
             } else {
-                req.setAttribute("error", "Update name failed");
+                req.setAttribute("errorUpdateName", "Update name failed");
             }
-            resp.sendRedirect(req.getHeader("referer"));
+            RenderUserDto user = UserService.getInstance().getUserById(Integer.parseInt(userId));
+            req.setAttribute("user", user);
+            req.getRequestDispatcher("page/setting/SettingPage.jsp").forward(req, resp);
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            req.setAttribute("error", e.getMessage());
+            req.setAttribute("errorUpdateName", e.getMessage());
         }
     }
 
-    private void handlePostUpdatePassword(HttpServletRequest req, HttpServletResponse resp) {
+    private void handlePostUpdatePassword(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String userId = req.getAttribute("userId").toString() == null ? "0" : req.getAttribute("userId").toString();
         String oldPassword = req.getParameter("oldPassword") != null ? req.getParameter("oldPassword") : "";
         String newPassword = req.getParameter("newPassword") != null ? req.getParameter("newPassword") : "";
@@ -105,14 +135,23 @@ public class SettingDashboardController extends HttpServlet {
         try {
             boolean result = UserService.getInstance().updateUserPassword(userDto);
             if (result) {
-                req.setAttribute("success", "Update password successfully");
+                if (oldPassword.equals(newPassword)) {
+                    req.setAttribute("errorNewPassword", "New password must be different from old password");
+                    req.getRequestDispatcher("page/setting/SettingPage.jsp").forward(req, resp);
+                    return;
+                }
+                req.setAttribute("successUpdatePassword", "Update password successfully");
             } else {
-                req.setAttribute("error", "Update password failed");
+                req.setAttribute("errorUpdatePassword", "Update password failed");
             }
-            resp.sendRedirect(req.getHeader("referer"));
+
+            RenderUserDto user = UserService.getInstance().getUserById(Integer.parseInt(userId));
+            req.setAttribute("user", user);
+            req.getRequestDispatcher("page/setting/SettingPage.jsp").forward(req, resp);
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            req.setAttribute("error", e.getMessage());
+            req.setAttribute("errorUpdatePassword", e.getMessage());
+            req.getRequestDispatcher("page/setting/SettingPage.jsp").forward(req, resp);
         }
     }
 
@@ -120,14 +159,16 @@ public class SettingDashboardController extends HttpServlet {
         String userId = req.getAttribute("userId").toString() == null ? "0" : req.getAttribute("userId").toString();
         Part filePart = req.getPart("avatar") != null ? req.getPart("avatar") : null;
         if (filePart == null) {
-            req.setAttribute("error", "Avatar is null");
+            req.setAttribute("errorUpdateAvatar", "Avatar is not valid");
+            req.getRequestDispatcher("page/setting/SettingPage.jsp").forward(req, resp);
             return;
         }
         String profilePicture = filePart.getSubmittedFileName();
         String extension = profilePicture.substring(profilePicture.lastIndexOf(".") + 1);
         String allowedExtension = "jpg,jpeg,png";
         if (!allowedExtension.contains(extension)) {
-            req.setAttribute("error", "Avatar is not valid");
+            req.setAttribute("errorUpdateAvatar", "Avatar is not valid");
+            req.getRequestDispatcher("page/setting/SettingPage.jsp").forward(req, resp);
             return;
         }
 
@@ -142,14 +183,17 @@ public class SettingDashboardController extends HttpServlet {
         try {
             boolean result = UserService.getInstance().updateUserAvatar(userDto);
             if (result) {
-                req.setAttribute("success", "Update avatar successfully");
+                req.setAttribute("successUpdateAvatar", "Update avatar successfully");
             } else {
-                req.setAttribute("error", "Update avatar failed");
+                req.setAttribute("errorUpdateAvatar", "Update avatar failed");
             }
-            resp.sendRedirect(req.getHeader("referer"));
+
+            RenderUserDto user = UserService.getInstance().getUserById(Integer.parseInt(userId));
+            req.setAttribute("user", user);
+            req.getRequestDispatcher("page/setting/SettingPage.jsp").forward(req, resp);
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            req.setAttribute("error", e.getMessage());
+            req.setAttribute("errorUpdateAvatar", e.getMessage());
         }
     }
 

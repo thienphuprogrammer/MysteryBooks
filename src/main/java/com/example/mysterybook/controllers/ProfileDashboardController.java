@@ -44,17 +44,24 @@ public class ProfileDashboardController extends HttpServlet {
 
     private void handleGetProfile(HttpServletRequest req, HttpServletResponse resp) throws Exception {
         String id = req.getParameter("id") == null ? "0" : req.getParameter("id");
+        String userId = req.getAttribute("userId").toString() == null ? "0" : req.getAttribute("userId").toString();
 
-        RenderUserDto user = UserService.getInstance().getUserById(Integer.parseInt(id));
-        List<RenderFriendDto> friends = FriendService.getInstance().getFriendsByUserId(Integer.parseInt(id));
-        List<RenderPostDto> posts = PostsService.getInstance().getPostsByUserId(Integer.parseInt(id));
-
-        req.setAttribute("user", user);
-        req.setAttribute("friends", friends);
-        req.setAttribute("posts", posts);
         if (req.getAttribute("userId").toString().equals(id)) {
+            RenderUserDto user = UserService.getInstance().getUserById(Integer.parseInt(id));
+            List<RenderFriendDto> friends = FriendService.getInstance().getFriendsByUserId(Integer.parseInt(id));
+            List<RenderPostDto> posts = PostsService.getInstance().getPostsByUserId(Integer.parseInt(id));
+            req.setAttribute("user", user);
+            req.setAttribute("friends", friends);
+            req.setAttribute("posts", posts);
             req.getRequestDispatcher("page/profile/ProfileOwnerPageDashboard.jsp").forward(req, resp);
         } else {
+            RenderUserDto user = UserService.getInstance().getUserById(Integer.parseInt(id));
+            List<RenderFriendDto> friends = FriendService.getInstance().getFriendsByUserId(Integer.parseInt(id));
+            List<RenderPostDto> posts = PostsService.getInstance().getPostsForGuest(Integer.parseInt(id), Integer.parseInt(userId));
+
+            req.setAttribute("posts", posts);
+            req.setAttribute("user", user);
+            req.setAttribute("friends", friends);
             req.getRequestDispatcher("page/profile/ProfileGuestPageDashboard.jsp").forward(req, resp);
         }
     }

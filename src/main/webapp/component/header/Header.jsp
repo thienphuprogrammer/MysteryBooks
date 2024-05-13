@@ -13,10 +13,6 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page"
-                       href="${pageContext.request.contextPath}/friends">Friends</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page"
                        href="${pageContext.request.contextPath}/messages">Messages</a>
                 </li>
                 <li class="nav-item">
@@ -41,7 +37,7 @@
                 </li>
             </ul>
             <form class="d-flex justify-content-center align-items-center"
-                  action="${pageContext.request.contextPath}/searchController" role="search">
+                  action="${pageContext.request.contextPath}/home?action=search" method="post">
                 <input class="form-control me-2 border-2 rounded-pill px-3 mt-4" type="search"
                        placeholder="Search" aria-label="Search" name="search">
                 <button class="btn btn-outline-success border-2 rounded-pill px-3 mt-4"
